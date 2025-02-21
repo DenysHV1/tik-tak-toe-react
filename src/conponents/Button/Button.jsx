@@ -1,7 +1,7 @@
 import s from './Button.module.css'
-
-const Button = ({title, onClick}) => {
-	return <button onClick={onClick} className={s.button}>{title}</button>
+import { VscDebugRestart } from "react-icons/vsc";
+const Button = ({ onClick}) => {
+	return <button onClick={onClick} className={s.button}><VscDebugRestart className={s.btnSvg}/></button>
 }
 
 export default Button 

@@ -21,40 +21,12 @@ body {
   box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
 }
 
-.turn{
-  position: absolute;
-  left: 13px;
-  top: 91px;
-  color: azure;
-  font-size: 18px;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
-}
-
-.move{
-  position: absolute;
-  left: 13px;
-  top: 118px;
-  color: azure;
-  font-size: 18px;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
-}
-
-.restart{
-  position: absolute;
-  right: 13px;
-  top: 118px;
-  color: azure;
-  font-size: 18px;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
-}
-
 .swiper-wrapper {
   min-height: 120% !important;
 }
 
 .swiper-slide {
   overflow: hidden;
-  border-radius: 10px;
 }
 
 .swiper-scrollbar {

@@ -4,7 +4,6 @@ import GameCharacters from "./conponents/GameCharacters/GameCharacters.jsx";
 import SelectedCharacters from "./conponents/SelectedCharacters/SelectedCharacters.jsx";
 import HistoryOfMoves from "./conponents/HistoryOfMoves/HistoryOfMoves.jsx";
 import GameBoard from "./conponents/GameBoard/GameBoard.jsx";
-import Button from "./conponents/Button/Button.jsx";
 
 const Game = () => {
   const [elements, setElements] = useState(data);
@@ -65,13 +64,7 @@ const Game = () => {
         setPlayers={setPlayers}
         gameElements={gameElements}
       />
-      <SelectedCharacters onChangeCharacter={handleChangeCharacter} players={players} />
-      <Button title="reset" onClick={handleRestart}/>
-      <p className="turn">
-        Nuw turn:{" "}
-        {players.length === 2 && counter % 2 === 0 ? players[0] : players[1]}
-      </p>
-      <p className="move">Move number: {gameLog.length}</p>
+      <SelectedCharacters onChangeCharacter={handleChangeCharacter} players={players} handleRestart={handleRestart} counter={counter} gameLog={gameLog}/>
       <GameBoard
         elements={elements}
         players={players}
