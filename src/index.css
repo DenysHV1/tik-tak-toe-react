@@ -1,14 +1,75 @@
-.elementsContainer{
-	width: 150px;
-	height: 150px;
-	display:flex;
-	flex-wrap: wrap;
+:root{
+  --swiper-theme-color: none !important;
 }
 
-.element{
-	width: 50px;
-	height: 50px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+body {
+  background: -webkit-linear-gradient(90deg, #000000, #7503a6, #000000);
+  background: linear-gradient(90deg, #000000, #7503a6, #000000);
+  margin: 0;
+}
+  
+.container {
+  position: relative;
+	border-radius: 10px;
+  max-width: 400px;
+  padding: 10px;
+  margin: 0 auto;
+  background-color: aliceblue;
+  height: auto;
+  background: -webkit-linear-gradient(90deg, #9166c4, #8c20e6);
+  background: linear-gradient(90deg, #9166c4, #8c20e6);
+  box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+}
+
+.turn{
+  position: absolute;
+  left: 13px;
+  top: 91px;
+  color: azure;
+  font-size: 18px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.move{
+  position: absolute;
+  left: 13px;
+  top: 118px;
+  color: azure;
+  font-size: 18px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.restart{
+  position: absolute;
+  right: 13px;
+  top: 118px;
+  color: azure;
+  font-size: 18px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.swiper-wrapper {
+  min-height: 120% !important;
+}
+
+.swiper-slide {
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.swiper-scrollbar {
+  position: static !important;
+  margin-top: 5px;
+}
+
+.swiper-button-prev {
+  display: none !important;
+}
+
+.swiper-button-next {
+  display: none !important;
+}
+
+.swiper-scrollbar{
+  height: 8px !important;
 }

@@ -1,51 +1,43 @@
 import { useState } from "react";
 import { data, gameElements } from "../data.js";
+import GameCharacters from "./conponents/GameCharacters/GameCharacters.jsx";
+import SelectedCharacters from "./conponents/SelectedCharacters/SelectedCharacters.jsx";
+import HistoryOfMoves from "./conponents/HistoryOfMoves/HistoryOfMoves.jsx";
+import GameBoard from "./conponents/GameBoard/GameBoard.jsx";
+import Button from "./conponents/Button/Button.jsx";
 
 const Game = () => {
   const [elements, setElements] = useState(data);
   const [players, setPlayers] = useState([]);
   const [gameLog, setGameLog] = useState([]);
   const [counter, setCounter] = useState(0);
-  const [lastIdx, setLastIdx] = useState(null)
-
-  const handleChoice = (player) => {
-    if (players.length < 2) {
-      setPlayers((prevPlayers) =>
-        player !== prevPlayers[0] ? [...prevPlayers, player] : [...prevPlayers]
-      );
-    }
-  };
 
   const handleClick = (idxActive) => {
     setCounter((prevCount) => (prevCount += 1));
-    setLastIdx(idxActive)
-    if (counter % 2 === 0 && players.length >= 2 && lastIdx !== idxActive) {
-      setGameLog((prevLogs) => [
-        ...prevLogs,
-        { idx: idxActive, item: players[0] },
-      ]);
-      setElements(
-        elements.map((element) =>
-          element.idx === idxActive
-            ? { idx: element.idx, item: players[0] }
-            : element
-        )  
-      );
-    } else if (counter % 2 !== 0 && players.length >= 2 && lastIdx !== idxActive) {
-      setGameLog((prevLogs) => [
-        ...prevLogs,
-        { idx: idxActive, item: players[1] },
-      ]);
-      setElements(
-        elements.map((element) =>
-          element.idx === idxActive
-            ? { idx: element.idx, item: players[1] }
-            : element
-        )
-      );
+
+    if (counter % 2 === 0) {
+      setPosition(idxActive, players[0]);
+    } else if (counter % 2 !== 0) {
+      setPosition(idxActive, players[1]);
     } else {
       setCounter(0);
       return;
+    }
+
+    function setPosition(activeIdx, player) {
+      setGameLog((prevLogs) => {
+        if (prevLogs.some((log) => log.idx === activeIdx)) {
+          return prevLogs;
+        }
+        return [...prevLogs, { idx: activeIdx, item: player }];
+      });
+      setElements(
+        elements.map((element) =>
+          element.idx === activeIdx && !element.item
+            ? { idx: element.idx, item: player }
+            : element
+        )
+      );
     }
   };
 
@@ -56,51 +48,37 @@ const Game = () => {
     setCounter(0);
   };
 
+  const handleChangeCharacter = (el) => {
+    const agreement = confirm("Are you sure? Game settings will be reset");
+    if (agreement) {
+      setElements(data);
+      setPlayers(players.filter(item => item !== el));
+      setGameLog([]);
+      setCounter(0);
+    }
+  };
+
   return (
-    <>
-      <div>
-        {gameElements.map((item, idx) => (
-          <button onClick={() => handleChoice(item)} key={`game-el-${idx}`}>
-            {item}
-          </button>
-        ))}
-      </div>
-      <div>
-        {players.length > 0 &&
-          players.map(
-            (item, idx) =>
-              idx <= 1 && (
-                <button key={`activePlayer-${idx + 1}`}>{item}</button>
-              )
-          )}
-      </div>
-      <button onClick={handleRestart}>Restart</button>
-      <p>
+    <div className="container">
+      <GameCharacters
+        players={players}
+        setPlayers={setPlayers}
+        gameElements={gameElements}
+      />
+      <SelectedCharacters onChangeCharacter={handleChangeCharacter} players={players} />
+      <Button title="reset" onClick={handleRestart}/>
+      <p className="turn">
         Nuw turn:{" "}
         {players.length === 2 && counter % 2 === 0 ? players[0] : players[1]}
       </p>
-      <p>Move number: {counter}</p>
-      <div className="elementsContainer">
-        {elements.map(({ idx, item }) => (
-          <button
-            disabled={players.length !== 2}
-            className="element"
-            onClick={() => handleClick(idx)}
-            key={idx}
-          >
-            {item}
-          </button>
-        ))}
-      </div>
-      <ul>
-        {gameLog.length > 0 &&
-          gameLog.map(({ idx, item }) => (
-            <li key={`log-${idx}`}>
-              Player: {item}, clicked: {idx} point
-            </li>
-          ))}
-      </ul>
-    </>
+      <p className="move">Move number: {gameLog.length}</p>
+      <GameBoard
+        elements={elements}
+        players={players}
+        handleClick={handleClick}
+      />
+      <HistoryOfMoves gameLog={gameLog} />
+    </div>
   );
 };
 
