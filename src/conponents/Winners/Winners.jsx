@@ -1,8 +1,8 @@
 import s from "./Winners.module.css";
-const Winners = ({ countWins1, countWins2 }) => {
+const Winners = ({onOpenForm, countWins1, countWins2 }) => {
   return (
     <div className={s.container}>
-      <p className={s.winner}>
+      <p onClick={() => onOpenForm()} className={s.winner}>
         {countWins1.name}:
         <span
           style={
@@ -14,7 +14,7 @@ const Winners = ({ countWins1, countWins2 }) => {
           {countWins1.win};
         </span>
       </p>
-      <p className={s.winner}>
+      <p onClick={() => onOpenForm()} className={s.winner}>
         {countWins2.name}:
         <span
           style={

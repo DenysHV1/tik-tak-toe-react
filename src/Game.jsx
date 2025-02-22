@@ -5,6 +5,7 @@ import SelectedCharacters from "./conponents/SelectedCharacters/SelectedCharacte
 import HistoryOfMoves from "./conponents/HistoryOfMoves/HistoryOfMoves.jsx";
 import GameBoard from "./conponents/GameBoard/GameBoard.jsx";
 import Winners from "./conponents/Winners/Winners.jsx";
+import ChangePlayerName from "./conponents/ChangePlayerName/ChangePlayerName.jsx";
 
 const Game = () => {
   const [elements, setElements] = useState(data);
@@ -15,6 +16,7 @@ const Game = () => {
 
   const [countWins1, seCountWins1] = useState({ name: "player1", win: 0 });
   const [countWins2, seCountWins2] = useState({ name: "player2", win: 0 });
+  const [openForm, setOpenForm] = useState(false);
 
   const handleRestart = () => {
     setElements(data);
@@ -26,33 +28,40 @@ const Game = () => {
   useEffect(() => {
     function winner(elements) {
       const items = elements.map((el) => el.item);
-  
+
       const winPatterns = [
-        [0, 1, 2], [3, 4, 5], [6, 7, 8],
-        [0, 3, 6], [1, 4, 7], [2, 5, 8],
-        [0, 4, 8], [2, 4, 6], [3, 6, 9], [5, 7, 9]
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+        [3, 6, 9],
+        [5, 7, 9],
       ];
-  
+
       for (const [a, b, c] of winPatterns) {
         if (items[a] && items[a] === items[b] && items[a] === items[c]) {
           if (players[0] === items[a]) {
             seCountWins1((prev) => ({
               ...prev,
-              win: prev.win + 1
+              win: prev.win + 1,
             }));
           } else if (players[1] === items[a]) {
             seCountWins2((prev) => ({
               ...prev,
-              win: prev.win + 1
+              win: prev.win + 1,
             }));
           }
-  
+
           handleRestart();
           return;
         }
       }
     }
-  
+
     winner(elements);
   }, [elements, players]);
 
@@ -100,6 +109,32 @@ const Game = () => {
     setHistory(index);
   };
 
+  const handleOpenForm = () => {
+    setOpenForm((prevOpen) => !prevOpen);
+  };
+
+  const handleTakeNamesFromForm = (first, second) => {
+    if (first) {
+      seCountWins1((prev) => {
+        return {
+          ...prev,
+          name: first,
+        };
+      });
+    }
+
+    if (second) {
+      seCountWins2((prev) => {
+        return {
+          ...prev,
+          name: second,
+        };
+      });
+    }
+
+    handleOpenForm();
+  };
+
   return (
     <div className="container">
       <GameCharacters
@@ -120,7 +155,12 @@ const Game = () => {
         players={players}
         handleClick={handleClick}
       />
-      <Winners countWins1={countWins1} countWins2={countWins2}/>
+      {openForm && <ChangePlayerName onTakeNames={handleTakeNamesFromForm} />}
+      <Winners
+        onOpenForm={handleOpenForm}
+        countWins1={countWins1}
+        countWins2={countWins2}
+      />
       <HistoryOfMoves onDeleteMove={handleHistoryOfMoves} gameLog={gameLog} />
     </div>
   );

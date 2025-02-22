@@ -1,11 +1,13 @@
 .container{
 position: absolute;
-right: 118px;
-bottom: 323px;
+right: 14px;
+bottom: 345px;
 display: flex;
-flex-direction: column;
 align-items: flex-start;
-gap: 5px;
+gap: 10px;
+background-color: rgb(126, 0, 210);
+padding: 5px;
+border-radius: 5px;
 }
 
 .winner{
